@@ -14,9 +14,8 @@ import { Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
-import { getIngredientsAll } from '../../services/ingredientsSlice';
-import { getFeedsAll } from '../../services/feedSlice';
-import { getIngredientsApi } from '@api';
+import { getIngredientsAll } from '../../services/ingredients/actions';
+import { getFeedsAll } from '../../services/feed/feedSlice';
 import { checkUserAuth } from '../../services/user/actions';
 
 const App = () => {
@@ -38,7 +37,7 @@ const App = () => {
         <Route
           path='/feed/:number'
           element={
-            <Modal title='' onClose={() => window.history.back()}>
+            <Modal title='Детали заказа' onClose={() => window.history.back()}>
               <OrderInfo />
             </Modal>
           }
@@ -73,6 +72,19 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <ProfileOrders />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='orders/:number'
+            element={
+              <ProtectedRoute>
+                <Modal
+                  title='Детали заказа'
+                  onClose={() => window.history.back()}
+                >
+                  <OrderInfo />
+                </Modal>
               </ProtectedRoute>
             }
           />

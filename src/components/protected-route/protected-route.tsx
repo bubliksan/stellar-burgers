@@ -15,6 +15,7 @@ export const ProtectedRoute = ({
   const isAuthChecked = useSelector(getIsAuthChecked);
   const user = useSelector(getUser);
   const location = useLocation();
+  console.log(location);
 
   if (!isAuthChecked) {
     return <Preloader />;
@@ -25,7 +26,7 @@ export const ProtectedRoute = ({
   }
 
   if (onlyUnAuth && user) {
-    const { from } = location.state ?? { from: { pathname: '/profile' } };
+    const { from } = location.state ?? { from: { pathname: '/' } };
     return <Navigate to={from} />;
   }
   return children;

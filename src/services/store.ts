@@ -1,18 +1,22 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
-import { ingredientsSlice } from './ingredientsSlice';
+import { ingredientsSlice } from './ingredients/ingredientsSlice';
 import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
-import { feedSlice } from './feedSlice';
+import { feedSlice } from './feed/feedSlice';
 import { userSlice } from './user/userSlice';
 import { constructorSlice } from './constructor/constructorSlice';
+import { orderSlice } from './order/orderSlice';
+import { ordersSlice } from './orders/ordersSlice';
 
 const rootReducer = combineSlices(
   ingredientsSlice,
   feedSlice,
   userSlice,
-  constructorSlice
+  constructorSlice,
+  orderSlice,
+  ordersSlice
 );
 
 const store = configureStore({

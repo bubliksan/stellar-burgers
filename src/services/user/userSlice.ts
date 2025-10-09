@@ -1,6 +1,12 @@
 import { Action, createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
-import { login, logout, /*, registerUser*/ updateUser } from './actions';
+import {
+  checkUserAuth,
+  login,
+  logout,
+  /*, registerUser*/
+  updateUser
+} from './actions';
 
 type TUserState = {
   user: TUser | null;
@@ -48,6 +54,7 @@ export const userSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
       })
+      .addCase(checkUserAuth.fulfilled, () => {})
       .addCase(updateUser.fulfilled, () => {
         console.log('Updated');
       });

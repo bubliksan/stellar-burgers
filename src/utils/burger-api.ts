@@ -218,9 +218,8 @@ export const getUserApi = () =>
       authorization: getCookie('accessToken')
     } as HeadersInit
   }).then((res) => {
-    if (res.success) {
-      return res.user;
-    }
+    if (res.success) return res.user;
+    return Promise.reject(res);
   });
 
 export const updateUserApi = (user: Partial<TRegisterData>) =>
