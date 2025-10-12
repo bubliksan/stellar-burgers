@@ -28,6 +28,7 @@ export const BurgerConstructor: FC = () => {
     if (!constructorItems.bun || orderRequest) return;
     if (!user) {
       navigate('/login');
+      return;
     }
     order.push(constructorItems.bun?._id);
     constructorItems.ingredients.map((item) => order.push(item._id));

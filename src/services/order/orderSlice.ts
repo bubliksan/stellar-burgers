@@ -6,12 +6,14 @@ type TOrderState = {
   order: TOrder | null;
   name: string;
   loading: boolean;
+  error: string | undefined;
 };
 
 const initialState: TOrderState = {
   order: null,
   name: '',
-  loading: false
+  loading: false,
+  error: undefined
 };
 
 export const orderSlice = createSlice({
@@ -37,6 +39,10 @@ export const orderSlice = createSlice({
         state.order = action.payload.order;
         state.name = action.payload.name;
         state.loading = false;
+      })
+      .addCase(sendOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   }
 });

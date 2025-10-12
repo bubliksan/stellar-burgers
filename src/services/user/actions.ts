@@ -19,8 +19,10 @@ export const logout = createAsyncThunk('user/logout', async () => logoutApi());
 
 export const updateUser = createAsyncThunk(
   'user/updateUser',
-  async (data: TRegisterData) => {
-    updateUserApi(data);
+  async (data: TRegisterData, { dispatch }) => {
+    if (isTokenExists()) {
+      updateUserApi(data).then((user) => dispatch(setUser(user)));
+    }
   }
 );
 
@@ -37,7 +39,7 @@ export const checkUserAuth = createAsyncThunk(
   }
 );
 
-// export const registerUser = createAsyncThunk(
-//   'user/register',
-//   async (data: TRegisterData) => registerUserApi(data)
-// );
+export const registerUser = createAsyncThunk(
+  'user/register',
+  async (data: TRegisterData) => registerUserApi(data)
+);

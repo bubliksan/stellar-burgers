@@ -1,30 +1,32 @@
-import { Action, createSlice } from '@reduxjs/toolkit';
+import { Action, PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
 import {
   checkUserAuth,
   login,
   logout,
-  /*, registerUser*/
+  registerUser,
   updateUser
 } from './actions';
 
 type TUserState = {
   user: TUser | null;
   isAuthChecked: boolean;
+  error: string | undefined;
 };
 
 const initialState: TUserState = {
   user: null,
-  isAuthChecked: false
+  isAuthChecked: false,
+  error: undefined
 };
 
-// interface RejectedAction extends Action {
-//   error: Error;
-// }
+interface RejectedAction extends Action {
+  error: Error;
+}
 
-// function isRejectedAction(action: Action): action is RejectedAction {
-//   return action.type.endsWith('rejected');
-// }
+function isRejectedAction(action: Action): action is RejectedAction {
+  return action.type.endsWith('rejected');
+}
 
 export const userSlice = createSlice({
   name: 'user',
@@ -43,10 +45,10 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      //   .addCase(registerUser.fulfilled, (state, action) => {
-      //     state.user = action.payload.user;
-      //     state.isAuthChecked = true;
-      //   })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.isAuthChecked = true;
+      })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.isAuthChecked = true;
@@ -55,12 +57,9 @@ export const userSlice = createSlice({
         state.user = null;
       })
       .addCase(checkUserAuth.fulfilled, () => {})
-      .addCase(updateUser.fulfilled, () => {
-        console.log('Updated');
+      .addMatcher(isRejectedAction, (state, action) => {
+        state.error = action.error.message;
       });
-    //   .addMatcher(isRejectedAction, (state, action) => {
-    //     state
-    //   })
   }
 });
 

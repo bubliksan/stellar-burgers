@@ -15,7 +15,6 @@ export const ProtectedRoute = ({
   const isAuthChecked = useSelector(getIsAuthChecked);
   const user = useSelector(getUser);
   const location = useLocation();
-  console.log(location);
 
   if (!isAuthChecked) {
     return <Preloader />;

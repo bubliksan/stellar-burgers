@@ -155,7 +155,11 @@ export const registerUserApi = (data: TRegisterData) =>
   })
     .then((res) => checkResponse<TAuthResponse>(res))
     .then((data) => {
-      if (data?.success) return data;
+      if (data?.success) {
+        localStorage.setItem('refreshToken', data.refreshToken);
+        setCookie('accessToken', data.accessToken);
+        return data;
+      }
       return Promise.reject(data);
     });
 
@@ -230,6 +234,9 @@ export const updateUserApi = (user: Partial<TRegisterData>) =>
       authorization: getCookie('accessToken')
     } as HeadersInit,
     body: JSON.stringify(user)
+  }).then((res) => {
+    if (res.success) return res.user;
+    return Promise.reject(res);
   });
 
 export const logoutApi = () =>

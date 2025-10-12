@@ -1,16 +1,18 @@
 import {
   ConstructorPage,
   Feed,
+  ForgotPassword,
   Login,
   NotFound404,
   Profile,
   ProfileOrders,
-  Register
+  Register,
+  ResetPassword
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
@@ -20,6 +22,8 @@ import { checkUserAuth } from '../../services/user/actions';
 
 const App = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const backgroundLocation = location.state?.backgroundLocation;
 
   useEffect(() => {
     dispatch(checkUserAuth());
@@ -55,6 +59,22 @@ const App = () => {
           element={
             <ProtectedRoute onlyUnAuth>
               <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/reset-password'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ResetPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/forgot-password'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ForgotPassword />
             </ProtectedRoute>
           }
         />
@@ -100,6 +120,11 @@ const App = () => {
             </Modal>
           }
         />
+      </Routes>
+      <Routes location={backgroundLocation || location}>
+        <Route path='/ingredients/:id' element={<ConstructorPage />} />
+        <Route path='/feed/:number' element={<Feed />} />
+        <Route path='/profile/orders/:number' element={<ProfileOrders />} />
       </Routes>
     </div>
   );
