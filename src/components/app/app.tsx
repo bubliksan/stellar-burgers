@@ -28,7 +28,6 @@ const App = () => {
   useEffect(() => {
     dispatch(checkUserAuth());
     dispatch(getIngredientsAll());
-    dispatch(getFeedsAll());
   }, []);
   console.log('App rendered'); // Сколько раз рендерится?
   return (
