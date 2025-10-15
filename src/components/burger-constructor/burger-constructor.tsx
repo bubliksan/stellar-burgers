@@ -33,12 +33,11 @@ export const BurgerConstructor: FC = () => {
     order.push(constructorItems.bun?._id);
     constructorItems.ingredients.map((item) => order.push(item._id));
     order.push(constructorItems.bun?._id);
-    dispatch(sendOrder(order));
+    dispatch(sendOrder(order)).then(() => dispatch(clearConstructor()));
   };
 
   const closeOrderModal = () => {
     dispatch(deleteOrder());
-    dispatch(clearConstructor());
   };
 
   const price = useMemo(
